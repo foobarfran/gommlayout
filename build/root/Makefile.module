@@ -1,0 +1,24 @@
+build-lib: test
+	@echo "\033[1mBUILD LIB\033[0m"
+	@go build ./...
+	@echo "Success!"
+
+build-app: test
+	@echo "\033[1mBUILD APP\033[0m"
+	@BIN_DIR=${BASE_DIR}/target/; \
+	mkdir -p $$BIN_DIR; \
+	go build -o $$BIN_DIR ./...
+	@echo "Success!"
+
+test: deps
+	@echo "\033[1mTEST\033[0m"
+	go test ./...
+
+deps: module
+	@echo "\033[1mDEPS\033[0m"
+	go mod tidy
+
+module:
+	@echo "\n\033[1m-------------------< ${MODULE} >--------------------\033[0m"
+
+.PHONY: build-lib build-app test deps clean module
